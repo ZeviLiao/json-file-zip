@@ -1,9 +1,13 @@
 
 
 
-var JSZip = require("jszip");
-var fs = require("fs");
-var path = require("path");
+// var JSZip = require("jszip");
+// var fs = require("fs");
+// var path = require("path");
+import JSZip  from 'jszip';
+import fs  from 'fs';
+import path  from 'path';
+
 var zip = new JSZip();
 
 const jsonFolder = path.join(__dirname, './archive/');
