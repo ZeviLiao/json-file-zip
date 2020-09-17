@@ -8,6 +8,10 @@ import JSZip  from 'jszip';
 import fs  from 'fs';
 import path  from 'path';
 
+import {sayHello} from './hello'
+
+sayHello()
+
 var zip = new JSZip();
 
 const jsonFolder = path.join(__dirname, './archive/');
