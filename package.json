@@ -9,5 +9,8 @@
   "author": "",
   "license": "ISC",
   "keywords": [],
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "jszip": "^3.5.0"
+  }
 }
