@@ -4,11 +4,13 @@
 // var JSZip = require("jszip");
 // var fs = require("fs");
 // var path = require("path");
-import JSZip  from 'jszip';
-import fs  from 'fs';
-import path  from 'path';
+import JSZip from 'jszip';
+import fs from 'fs';
+import path from 'path';
 
-import {sayHello} from './hello'
+import { sayHello } from './hello'
+import crypto from 'crypto';
+import filesize from 'filesize'
 
 sayHello()
 
@@ -30,8 +32,20 @@ fs.readdir(jsonFolder, (err, files) => {
 // img.file("smile.gif", imgData, {base64: true});
 zip.generateAsync({ type: "nodebuffer" })
     .then(function (content) {
-        fs.writeFile(`presentation-${+ new Date()}.zip`, content, function (err) {
+        const md5 = crypto.createHash('md5');
+        let result = md5.update(content).digest('hex');
+
+        const fileName = `presentation-${+ new Date()}.zip`
+
+        fs.writeFile(fileName, content, function (err) {
             if (err) throw err;
-            console.log('done')
+            console.log('done', result)
+            const root = __dirname + '/../'
+            var stats = fs.statSync(path.join(root, fileName))
+            var fileSizeInMb = filesize(stats.size, { round: 0 });
+            console.log(fileSizeInMb)
         });
+
+
+
     });
