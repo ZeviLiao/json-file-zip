@@ -40,12 +40,8 @@ zip.generateAsync({ type: "nodebuffer" })
         fs.writeFile(fileName, content, function (err) {
             if (err) throw err;
             console.log('done', result)
-            const root = __dirname + '/../'
-            var stats = fs.statSync(path.join(root, fileName))
+            var stats = fs.statSync(fileName)
             var fileSizeInMb = filesize(stats.size, { round: 0 });
             console.log(fileSizeInMb)
         });
-
-
-
     });
