@@ -32,12 +32,15 @@ fs.readdir(jsonFolder, (err, files) => {
 // img.file("smile.gif", imgData, {base64: true});
 zip.generateAsync({ type: "nodebuffer" })
     .then(function (content) {
+
+        let pptId = process.argv[2];
+
         const fileSize = content.toString().length
 
         const md5 = crypto.createHash('md5');
         let result = md5.update(content).digest('hex');
 
-        const fileName = `presentation-${+ new Date()}.zip`
+        const fileName = `ptt-${pptId}-${+ new Date()}.zip`
 
         fs.writeFile(fileName, content, function (err) {
             if (err) throw err;
