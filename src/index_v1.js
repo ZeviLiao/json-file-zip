@@ -15,32 +15,38 @@ import filesize from 'filesize'
 // sayHello()
 
 var zip = new JSZip();
-let pptId = process.argv[2];
-const fileNameNoExt = `ptt-${pptId}-${+ new Date()}`
 
-const ptt = {
-    "metadata": {  // tags , category fixed value.
-        "category": "宗教", // null
-        "tags": []
-    },
-    "serials": [
-        { a: 1 },
-        { b: 1 }
-    ]
-}
+const jsonFolder = path.join(__dirname, './archive/');
 
-zip.file(`${fileNameNoExt}.json`, JSON.stringify(ptt));
+fs.readdir(jsonFolder, (err, files) => {
+    files.forEach(file => {
+        const filePath = jsonFolder + file
+        var file_content = fs.readFileSync(filePath);
+        zip.file(file, file_content);
+    });
+});
+
+
+// zip.file("Hello.txt", "Hello World\n");
+// var img = zip.folder("images");
+// img.file("smile.gif", imgData, {base64: true});
 zip.generateAsync({ type: "nodebuffer" })
     .then(function (content) {
-        
+
+        let pptId = process.argv[2];
+
         const fileSize = content.toString().length
+
         const md5 = crypto.createHash('md5');
         let result = md5.update(content).digest('hex');
 
-        const fileName = `${fileNameNoExt}.zip`
+        const fileName = `ptt-${pptId}-${+ new Date()}.zip`
 
         fs.writeFile(fileName, content, function (err) {
             if (err) throw err;
             console.log('done', result, fileSize)
+            // var stats = fs.statSync(fileName)
+            // var fileSizeInMb = filesize(stats.size, { round: 0 });
+            // console.log(fileSizeInMb)
         });
     });
